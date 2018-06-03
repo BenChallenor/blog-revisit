@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+
+  before_action :find_post, only: [:show, :edit, :update]
   def index
     @posts = Post.all.order('created_at DESC')
      # go to all posts and show them in descending order
@@ -19,16 +21,15 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
-    # find the post by id(created by default) saved to an instant variable
+    find_post
   end
 
   def edit
-    @post = Post.find(params[:id])
+    find_post
   end
 
   def update
-    @post = Post.find(params[:id])
+    find_post
     if @post.update(post_params)
       redirect_to @post
     else
@@ -37,6 +38,11 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def find_post
+    @post = Post.find(params[:id])
+    # find the post by id(created by default) saved to an instant variable
+  end
 
   def post_params
     params.require(:post).permit(:title, :body)
