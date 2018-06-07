@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 
-  before_action :find_post, only: [:show, :edit, :update]
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
   def index
     @posts = Post.all.order('created_at DESC')
      # go to all posts and show them in descending order
@@ -35,6 +35,11 @@ class PostsController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    @post.destroy
+    redirect_to root_path
   end
 
   private
